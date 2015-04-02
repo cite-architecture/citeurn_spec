@@ -42,6 +42,16 @@
     <ol>
     
         <li>
+            <a href="specification.html#background">Background</a>
+            
+        </li>
+    
+        <li>
+            <a href="specification.html#semantics-of-a-cite-object-citation">Semantics of a CITE Object citation</a>
+            
+        </li>
+    
+        <li>
             <a href="specification.html#syntax-of-a-cite-urn">Syntax of a CITE URN</a>
             
         </li>
@@ -65,9 +75,23 @@
 
         <div id="content">
             <h1 id="the-cite-object-urn-specification-version-0-1">The CITE Object URN specification, version 0.1</h1>
+<p><strong>Content</strong>:  This document defines version 0.1 of the Canonical Text Services URN.</p>
+<p><strong>Editors</strong>:  Christopher Blackwell and Neel Smith, Center for Hellenic Studies Technical Working Group leads.</p>
+<p><strong>Date</strong>:  April, 2015.</p>
+<p><strong>License</strong>:  This specification is available under the terms of the Creative Commons Attribution-ShareAlike 4.0 International License, <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-sa/4.0/deed.en_US</a>.</p>
+<h2 id="background">Background</h2>
+<p> RFC2141 defines the goal of URNs as follows:</p>
+<blockquote>
+<p>Uniform Resource Names (URNs) are intended to serve as persistent, location-independent, resource identifiers.</p>
+</blockquote>
+<p>The CITE Object URN (or more briefly, &quot;CITE URN&quot;) scheme defined here closely follows the syntactic requirements of a URN, but extends its goal to provide a system of persistent, <em>technology-independent</em> identifiers for texts and passages of texts.   Specifically, the semantics of the CITE Object URN scheme are recognized by implementations of the CITE Collection Services protocol, but CITE URNs can be used in any system, digital or other, that can parse the syntax of CITE URN values according to the syntax and semantics of this specification. </p>
+<h2 id="semantics-of-a-cite-object-citation">Semantics of a CITE Object citation</h2>
+<p>There are two major components to a citation with CITE  URN version 0.1:  a component identifying a naming authority, and a component uniquely identifying an object.   </p>
+<p>The naming authority component is a single identifer;  systems using CITE URNs must be able to resolve this value to a unique URI.</p>
+<p>The object component is a hierarchy identifying sets of unique objects in versioned representations.  The sets <em>may</em> be ordered.  Conceptually, the object hierarchy is similar to code management systems such as maven that organize versioned packages in groups.  The object component begins with an identifier for a <em>collection</em>, which is a set of objects sharing a common set of properties.  Collections can represent any kind of physical objects (e.g., paintings in a museum) or conceptual objects (e.g., episodes in a prose narrative).   This identifier <em>may</em> be  followed by an identifier for a <em>unique notional object</em> within that collection.  This in turn <em>may</em> be followed with an identifier for a specific <em>version</em> of that object.</p>
+<p>If the object component of the CITE URN is at the <em>notional object</em> or <em>version</em> level,  reference to a single object <em>may</em> be extended with additional, type-specific citation of some aspect or component of the object. </p>
 <h2 id="syntax-of-a-cite-urn">Syntax of a CITE URN</h2>
-<p>The discussion in this section will be removed when a formal specification for the syntax and semantics of the CITE URN has been released.</p>
-<h3 id="overall-structure-of-a-cts-urn">Overall structure of a CTS URN</h3>
+<h3 id="overall-structure-of-a-cite-urn">Overall structure of a CITE URN</h3>
 <p>All URNs must begin with the string <code>urn:</code> followed by a protocol identifier (the &quot;urn namespace identifier&quot;), followed by a colon (&quot;:&quot;, Unicode x003a). The protocol identifier for the CITE Object URN must be <code>cite</code>. The rest of the URN consists of a CITE namespace, and an object component.</p>
 <p>The namespace must be separated from the object component by a colon.  A value for the CITE namespace and for the object component is required.</p>
 <p>The top-level structure of a CITE URN could be summarized as</p>
@@ -80,7 +104,47 @@
 <p>References to specific objects (either at the notional object level, or the version level) may be qualified by type-specific extended references.<br>The extended reference must be separated from the canonical reference by the &quot;at&quot; sign (&quot;@&quot;, Unicode x0040).  If URN includes an extended reference, the value of the extended reference must not be null.</p>
 <p>The overall structure of a node reference could be summarized as</p>
 <pre><code>OBJECTCOMPONENT@EXTENDEDREFERENCE
-</code></pre>
+</code></pre><h3 id="ranges-of-objects-in-ordered-collections">Ranges of objects in ordered collections</h3>
+<p>Ranges of two or more nodes are identified by an ordered pair of object references as previously defined. The value for the first reference must identify the first object in the range; the value for the second node reference must identify the second object in the range. The two node references must be separated by the hyphen-minus sign (&quot;-&quot;, Unicode x002D).</p>
+<p>The structure of a range reference could be summarized as</p>
+<pre><code>OBJECT1-OBJECT2
+</code></pre><p>where each of <code>OBJECT1</code> and <code>OBJECT2</code> a valid reference to a citable object as previously defined, and the hyphen is literal.</p>
+<h3 id="character-set">Character set</h3>
+<p>CITE URNs must be expressed in the Unicode character set.</p>
+<h3 id="reserved-code-points">Reserved code points</h3>
+<p>Following the generic URN syntax, CITE URN reserves the use of the following code points: they must not be included in the data components of a CITE URN.</p>
+<ul>
+<li>the percent sign (&quot;%&quot; , Unicode x0025)</li>
+<li>the solidus (&quot;/&quot; , Unicode x002F)</li>
+<li>the question mark (&quot;?&quot; , Unicode x003F)</li>
+<li>the number sign (&quot;#&quot;, Unicode x0023)</li>
+<li><p>The CITE URN specification additionally reserves the following code points, and limits their usage to the syntactic functions previously specified:</p>
+</li>
+<li><p>the colon (&quot;:&quot;, Unicode x003A)</p>
+</li>
+<li>the full stop (&quot;.&quot;, Unicode x002E)</li>
+<li>the &quot;at&quot; sign (&quot;@&quot;, Unicode x0040)</li>
+<li>the hyphen-minus sign (&quot;-&quot;, Unicode x002D)</li>
+</ul>
+<h3 id="excluded-code-points">Excluded code points</h3>
+<p>Following the generic URN specification, CITE URNs exclude the following code points:</p>
+<ul>
+<li>all code points &lt; x0020</li>
+<li>the reverse solidus (&quot;\&quot;, Unicode x005C)</li>
+<li>the quotation mark (&quot;, Unicode x0022)</li>
+<li>the ampersand (&quot;&amp;&quot; , Unicode x0026)</li>
+<li>the less-than sign (&quot;&lt;&quot;, Unicode x003C)</li>
+<li>the greater-than sign (&quot;&gt;&quot; , Unicode x003E)</li>
+<li>the circumflex accent (&quot;^&quot; , Unicode x005E)</li>
+<li>the grave accent (&quot;`&quot; , Unicode x0060)</li>
+<li>the vertical line (&quot;|&quot; , Unicode x007C)</li>
+<li>the left curly bracket (&quot;{ , Unicode x007B)</li>
+<li>the right curly bracket (&quot;{ , Unicode x007D)</li>
+<li>the tilde (&quot;~ , Unicode x007E)</li>
+<li>the left square bracket (&quot;[&quot;, Unicode x005B)</li>
+<li>the right square bracket (&quot;]&quot;, Unicode x005D)</li>
+</ul>
+
 
 
 
